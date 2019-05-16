@@ -1,7 +1,7 @@
 ﻿using CoreWebAppDocker.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace ProductMicroservice.DBContexts
+namespace CoreWebAppDocker.DBContexts
 {
 	public class ProductContext : DbContext
 	{
