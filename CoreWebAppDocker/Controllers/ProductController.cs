@@ -7,6 +7,9 @@ using System.Transactions;
 
 namespace CoreWebAppDocker.Controllers
 {
+	/// <summary>
+	/// API controller
+	/// </summary>
 	[Route("api/[controller]")]
 	[ApiController]
 	public class ProductController : ControllerBase
