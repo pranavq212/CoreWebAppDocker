@@ -17,7 +17,7 @@ namespace WindowsFormsApp2
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			var result = ExecuteCommand(@"D:\Study\.Net Core\CoreWebAppDocker\diff.bat", "develop");
+			var result = ExecuteCommand(Application.StartupPath+"\\diff.bat", "develop", @"D:\Study\.Net Core\CoreWebAppDocker\");
 			Application.Run(new Form1());
 		}
 
@@ -27,7 +27,7 @@ namespace WindowsFormsApp2
 		/// <param name="command">Batch File</param>
 		/// <param name="branchName">Branch Name</param>
 		/// <returns>Status Code : 0 is success, all other code are errors</returns>
-		public static int ExecuteCommand(string command, string branchName)
+		public static int ExecuteCommand(string command, string branchName, string gitRepoPath)
 		{
 			int exitCode;
 			ProcessStartInfo ProcessInfo;
