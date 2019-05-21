@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,7 +19,11 @@ namespace WindowsFormsApp2
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			var result = ExecuteCommand(Application.StartupPath+"\\diff.bat", "develop", @"D:\Study\.Net Core\CoreWebAppDocker\");
+			string branchName = ConfigurationManager.AppSettings["BranchName"];
+			string checkoutPath = ConfigurationManager.AppSettings["CheckoutPath"];
+			//var result = ExecuteCommand(Application.StartupPath+"\\diff.bat", "develop", @"D:\Study\.Net Core\CoreWebAppDocker\");
+			var result = ExecuteCommand(Application.StartupPath + "\\diff.bat", branchName, checkoutPath);
+			IEnumerable<String> lines = File.ReadLines(Application.StartupPath+"/Delta.diff");
 			Application.Run(new Form1());
 		}
 
@@ -33,7 +39,7 @@ namespace WindowsFormsApp2
 			ProcessStartInfo ProcessInfo;
 			Process process;
 
-			ProcessInfo = new ProcessStartInfo(command, branchName +" "+ gitRepoPath);
+			ProcessInfo = new ProcessStartInfo(command, "\"" + branchName + "\" \"" + gitRepoPath + "\"");
 			ProcessInfo.CreateNoWindow = true;
 			ProcessInfo.UseShellExecute = false;
 			//ProcessInfo.WorkingDirectory = Application.StartupPath + "\\txtmanipulator";
