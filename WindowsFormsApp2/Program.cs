@@ -26,10 +26,10 @@ namespace WindowsFormsApp2
 		/// </summary>
 		/// <param name="command">Batch File</param>
 		/// <param name="branchName">Branch Name</param>
-		/// <returns></returns>
+		/// <returns>Status Code : 0 is success, all other code are errors</returns>
 		public static int ExecuteCommand(string command, string branchName)
 		{
-			int ExitCode;
+			int exitCode;
 			ProcessStartInfo ProcessInfo;
 			Process process;
 
@@ -48,13 +48,13 @@ namespace WindowsFormsApp2
 			string output = process.StandardOutput.ReadToEnd();
 			string error = process.StandardError.ReadToEnd();
 
-			ExitCode = process.ExitCode;
+			exitCode = process.ExitCode;
 
 			//MessageBox.Show("output>>" + (String.IsNullOrEmpty(output) ? "(none)" : output));
 			//MessageBox.Show("error>>" + (String.IsNullOrEmpty(error) ? "(none)" : error));
 			//MessageBox.Show("ExitCode: " + ExitCode.ToString(), "ExecuteCommand");
 			process.Close();
-			return ExitCode;
+			return exitCode;
 		}
 	}
 }
