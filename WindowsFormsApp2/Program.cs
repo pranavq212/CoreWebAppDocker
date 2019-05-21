@@ -33,7 +33,7 @@ namespace WindowsFormsApp2
 			ProcessStartInfo ProcessInfo;
 			Process process;
 
-			ProcessInfo = new ProcessStartInfo(command, branchName);//Application.StartupPath + "\\txtmanipulator\\txtmanipulator.bat", command);
+			ProcessInfo = new ProcessStartInfo(command, branchName +" "+ gitRepoPath);
 			ProcessInfo.CreateNoWindow = true;
 			ProcessInfo.UseShellExecute = false;
 			//ProcessInfo.WorkingDirectory = Application.StartupPath + "\\txtmanipulator";

@@ -16,6 +16,6 @@ call "C:/Program Files/git/bin/git.exe" merge-base master  %BRANCH_NAME% > merge
 set /p MERGE_BASE=<merge.tmp
 echo %MERGE_BASE%
 
-call "C:/Program Files/git/bin/git.exe" diff --name-only %BRANCH_NAME% %MERGE_BASE% >Delta.diff
+call "C:/Program Files/git/bin/git.exe" diff --name-only %BRANCH_NAME% %MERGE_BASE% > "%CURRENT_DIR%/Delta.diff"
 
 type Delta.diff
