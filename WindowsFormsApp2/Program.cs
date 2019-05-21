@@ -17,39 +17,44 @@ namespace WindowsFormsApp2
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			var result = ExecuteCommand("call \"C:/Program Files/git/bin/git.exe\" diff --name-only develop $(git merge-base master develop)>>Delta.diff");
+			var result = ExecuteCommand(@"D:\Study\.Net Core\CoreWebAppDocker\diff.bat", "develop");
 			Application.Run(new Form1());
 		}
 
 		/// <summary>
 		/// Execute command line command & return Status code
 		/// </summary>
-		/// <param name="command"></param>
-		/// <returns>Status code</returns>
-		static int ExecuteCommand(string command)
+		/// <param name="command">Batch File</param>
+		/// <param name="branchName">Branch Name</param>
+		/// <returns></returns>
+		public static int ExecuteCommand(string command, string branchName)
 		{
-			var processInfo = new ProcessStartInfo("cmd.exe", "/c " + command);
-			//processInfo.CreateNoWindow = true;
-			//processInfo.UseShellExecute = false;
-			processInfo.RedirectStandardError = true;
-			processInfo.RedirectStandardOutput = true;
+			int ExitCode;
+			ProcessStartInfo ProcessInfo;
+			Process process;
 
-			var process = Process.Start(processInfo);
+			ProcessInfo = new ProcessStartInfo(command, branchName);//Application.StartupPath + "\\txtmanipulator\\txtmanipulator.bat", command);
+			ProcessInfo.CreateNoWindow = true;
+			ProcessInfo.UseShellExecute = false;
+			//ProcessInfo.WorkingDirectory = Application.StartupPath + "\\txtmanipulator";
+			// *** Redirect the output ***
+			ProcessInfo.RedirectStandardError = true;
+			ProcessInfo.RedirectStandardOutput = true;
 
-			process.OutputDataReceived += (object sender, DataReceivedEventArgs e) =>
-				Console.WriteLine("output>>" + e.Data);
-			process.BeginOutputReadLine();
-
-			process.ErrorDataReceived += (object sender, DataReceivedEventArgs e) =>
-				Console.WriteLine("error>>" + e.Data);
-			process.BeginErrorReadLine();
-
+			process = Process.Start(ProcessInfo);
 			process.WaitForExit();
 
-			Console.WriteLine("ExitCode: {0}", process.ExitCode);
-			int status = process.ExitCode;
+			// *** Read the streams ***
+			string output = process.StandardOutput.ReadToEnd();
+			string error = process.StandardError.ReadToEnd();
+
+			ExitCode = process.ExitCode;
+
+			//MessageBox.Show("output>>" + (String.IsNullOrEmpty(output) ? "(none)" : output));
+			//MessageBox.Show("error>>" + (String.IsNullOrEmpty(error) ? "(none)" : error));
+			//MessageBox.Show("ExitCode: " + ExitCode.ToString(), "ExecuteCommand");
 			process.Close();
-			return status;
+			return ExitCode;
 		}
 	}
 }
